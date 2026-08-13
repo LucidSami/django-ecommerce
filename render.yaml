@@ -22,7 +22,3 @@ services:
         value: "False"
       - key: PYTHON_VERSION
         value: "3.12.5"
-    disk:
-      name: media_volume
-      mountPath: /opt/render/project/src/media
-      sizeGB: 1

@@ -1,0 +1,28 @@
+databases:
+  - name: kenakata_db
+    databaseName: kenakata
+    user: kenakata_user
+    plan: free
+
+services:
+  - type: web
+    name: kenakata_web
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn ecomproject.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kenakata_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.12.5"
+    disk:
+      name: media_volume
+      mountPath: /opt/render/project/src/media
+      sizeGB: 1

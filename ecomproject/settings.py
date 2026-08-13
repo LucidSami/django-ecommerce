@@ -169,10 +169,11 @@ STORAGES = {
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "OPTIONS": {
+            "manifest_strict": False,
+        }
     },
 }
-# Prevents collectstatic from failing when vendor CSS files are missing their .map files
-WHITENOISE_MANIFEST_STRICT = False
 
 # Cloudinary Configuration
 # Use the CLOUDINARY_URL from the dashboard: cloudinary://API_KEY:API_SECRET@CLOUD_NAME

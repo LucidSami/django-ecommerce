@@ -65,10 +65,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Thirt Party
+    # Third Party
     'taggit',
     'ckeditor',
-#    'easyaudit',
+    'cloudinary',
+    'cloudinary_storage',
 
     # Custom Apps
     'core',
@@ -164,15 +165,24 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # WhiteNoise storage for efficient static file delivery
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-MEDIA_URL = "media/"
+# Cloudinary Configuration
+# Use the CLOUDINARY_URL from the dashboard: cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
+if CLOUDINARY_URL:
+    import cloudinary
+    import re
+    # Parse the URL to set settings if dj_database_url isn't used for it
+    # django-cloudinary-storage handles CLOUDINARY_URL automatically via env vars
+    pass
 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 

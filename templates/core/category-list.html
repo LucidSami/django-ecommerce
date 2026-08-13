@@ -1,0 +1,88 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}Categories{% endblock title %}
+
+{% block content %}
+{% include 'partials/hero-section.html' %}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'assets/img/breadcrumb.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Categories</h2>
+                    <div class="breadcrumb__option">
+                        <a href="{% url 'core:index' %}">Home</a>
+                        <span class="breadcrumb__separator"><i class="fa fa-angle-right"></i></span>
+                        <span>Categories</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Category list Section Begin -->
+<section class="product spad py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <div class="category__list mb-4">
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h5 class="mb-0 font-weight-bold">Categories</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled mb-0">
+                                {% for c in categories %}
+                                <li class="mb-2"><a href="{% url 'core:category-product-list' c.cid %}" class="text-dark d-flex justify-content-between align-items-center">{{c.title}} <span class="badge badge-light badge-pill">{{c.category.count}}</span></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h5 class="mb-0 font-weight-bold">By Tags</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="category__list__item__tags d-flex flex-wrap">
+                                {% for random_tag in random_product_tags %}
+                                <a href="{% url 'core:tags' random_tag.slug %}" class="btn btn-sm btn-outline-secondary m-1 rounded-pill">#{{ random_tag.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-9 col-md-8">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <h6 class="mb-0 text-muted"><span>{{ categories.count }}</span> Categorie{{ categories.count|pluralize }} found</h6>
+                </div>
+                
+                <div class="row">
+                    {% for c in categories %}
+                    <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="card h-100 shadow-sm border-0 category-card overflow-hidden rounded-lg">
+                            <a href="{% url 'core:category-product-list' c.cid %}">
+                                <img src="{{ c.image.url }}" class="card-img-top object-fit-cover" alt="{{ c.title }}" style="height: 200px; object-fit: cover;">
+                            </a>
+                            <div class="card-body text-center bg-light">
+                                <h5 class="card-title mb-1"><a href="{% url 'core:category-product-list' c.cid %}" class="text-dark font-weight-bold">{{ c.title }}</a></h5>
+                                <p class="card-text text-muted small">{{ c.category.count }} Product{{ c.category.count|pluralize }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Category list Section End -->
+
+{% endblock content %}

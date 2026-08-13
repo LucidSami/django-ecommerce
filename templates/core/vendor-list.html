@@ -1,0 +1,63 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}Vendors{% endblock title %}
+
+{% block content %}
+{% include 'partials/hero-section.html' %}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'assets/img/breadcrumb.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Vendors</h2>
+                    <div class="breadcrumb__option">
+                        <a href="{% url 'core:index' %}">Home</a>
+                        <span class="breadcrumb__separator"><i class="fa fa-angle-right"></i></span>
+                        <span>Vendors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Vendor Section Start -->
+<section class="vendor spad py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <h6 class="mb-0 text-muted"><span>{{ vendors.count }}</span> Vendor{{ vendors.count|pluralize }} found</h6>
+                </div>
+
+                <div class="row">
+                    {% for v in vendors %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card h-100 shadow-sm border-0 vendor-card">
+                            <a href="{% url 'core:vendor-detail' v.vid %}">
+                                <div class="vendor-img-wrapper" style="height: 200px; overflow: hidden; background-color: #f8f9fa;">
+                                    <img src="{{ v.image.url }}" class="card-img-top w-100 h-100" style="object-fit: cover;" alt="{{ v.title }}">
+                                </div>
+                            </a>
+                            <div class="card-body bg-light text-center">
+                                <span class="badge badge-primary mb-2">Since {{ v.date|date:'Y' }}</span>
+                                <h5 class="card-title mb-2 font-weight-bold"><a href="{% url 'core:vendor-detail' v.vid %}" class="text-dark">{{ v.title }}</a></h5>
+                                <p class="card-text text-muted mb-1 small"><i class="fa fa-map-marker text-danger mr-1"></i> {{ v.address }}</p>
+                                <p class="card-text text-muted small"><i class="fa fa-phone text-success mr-1"></i> {{ v.contact }}</p>
+                                <a href="{% url 'core:vendor-detail' v.vid %}" class="btn btn-outline-primary btn-sm mt-2 rounded-pill px-4">Visit Store</a>
+                            </div>
+                        </div>
+                    </div> 
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Vendor Section End -->
+
+{% endblock content %}

@@ -1,0 +1,81 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}Wishlist{% endblock title %}
+
+{% block content %}
+{% include 'partials/hero-section.html' %}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'assets/img/breadcrumb.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Wishlist</h2>
+                    <div class="breadcrumb__option">
+                        <a href="{% url 'core:index' %}">Home</a>
+                        <span class="breadcrumb__separator"><i class="fa fa-angle-right"></i></span>
+                        <span>Wishlist</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<div class="cart-wrap spad" id="wishlist-list">
+    <div class="container">
+        {% if wishlist %}
+        <div class="row g-4">
+            {% for w in wishlist %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-0 position-relative wishlist-card">
+                    <button style="border-style: none; background: none; position: absolute; top: 10px; right: 10px; z-index: 10;" data-wishlist-product="{{ w.id }}" class="trash-icon delete-wishlist-product text-danger p-2 bg-white rounded-circle shadow-sm">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <img src="{{ w.product.image.url }}" alt="{{ w.product.title }}" class="card-img-top mCS_img_loaded p-3" style="height: 250px; object-fit: contain;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-truncate">{{ w.product.title|truncatechars:25 }}</h5>
+                        <p class="card-text mb-2">
+                            <span class="text-muted">Price: </span>
+                            <span class="price fw-bold">৳</span><span class="price current-product-price-{{ w.product.id }} fw-bold">{{ w.product.price }}</span>
+                        </p>
+                        <p class="card-text mb-3">
+                            {% if w.product.stock_count %}
+                            <span class="badge bg-success text-white in-stock-box">In Stock</span>
+                            {% else %}
+                            <span class="badge bg-danger text-white out-of-stock-box">Out of Stock</span>
+                            {% endif %}
+                        </p>
+                        <div class="mt-auto">
+                            <input type="hidden" value="1" class="product-quantity-{{ w.product.id }}" id="product-quantity-{{ w.product.id }}">
+                            <input type="hidden" value="{{ w.product.pid }}" class="product-pid-{{ w.product.id }}">
+                            <input type="hidden" value="{{ w.product.image.url }}" class="product-image-{{ w.product.id }}">
+                            <input type="hidden" value="{{ w.product.id }}" class="product-id-{{ w.product.id }}">
+                            <input type="hidden" value="{{ w.product.title }}" class="product-title-{{ w.product.id }}">
+                            {% if w.product.stock_count %}
+                            <button class="btn btn-primary primary-btn w-100 round-wishlist-btn add-to-cart-btn" data-index='{{ w.product.id }}'>Add to Cart</button>
+                            {% else %}
+                            <a href="{% url 'core:contact' %}" class="btn btn-secondary w-100 round-wishlist-btn text-white">Contact Us</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center py-5 kk-empty-state">
+                <i class="fa fa-heart-o fa-4x text-muted mb-3"></i>
+                <h3>Your wishlist is empty</h3>
+                <p class="text-muted">Save items you love here to buy them later.</p>
+                <a href="{% url 'core:products-list' %}" class="btn btn-primary primary-btn mt-3">CONTINUE SHOPPING</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

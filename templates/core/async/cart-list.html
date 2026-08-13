@@ -1,0 +1,113 @@
+<section class="shoping-cart spad">
+    <div class="container">
+        {% if cart_data %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">{{ totalcartitems }} Product{{ totalcartitems|pluralize }}</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product_id, item in cart_data.items %}
+                            <tr>
+                                <td class="shoping__cart__item">
+                                    <img src="{{ item.image }}" alt="{{ item.title }}" class="img-fluid" style="max-width: 100px;">
+                                    <h5>{{ item.title }}</h5>
+                                </td>
+                                <td class="shoping__cart__price">
+                                    ৳{{ item.price|floatformat:2 }}
+                                </td>
+                                <td class="shoping__cart__quantity">
+                                    <div class="quantity">
+                                        <div class="pro-qty d-flex align-items-center justify-content-center">
+                                            <input type="text" value="{{ item.qty }}" class="product-qty-{{ product_id }} form-control text-center" style="width: 60px;">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="shoping__cart__total">
+                                    ৳{% widthratio item.price 1 item.qty %}
+                                </td>
+                                <td class="shoping__cart__item__close">
+                                    <button class="update-product btn btn-sm btn-outline-secondary" data-product="{{ product_id }}"><i class="fa fa-retweet"></i></button>
+                                    &nbsp;
+                                    <button class="delete-product btn btn-sm btn-outline-danger" data-product="{{ product_id }}"><i class="fa fa-trash"></i></button> 
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mb-4">
+                <div class="shoping__cart__btns d-flex justify-content-between flex-wrap">
+                    <a href="{% url 'core:products-list' %}" class="btn btn-primary primary-btn cart-btn">CONTINUE SHOPPING</a>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="shoping__continue">
+                    <div class="shoping__discount">
+                        <h5>Discount Codes</h5>
+                        <form action="#" class="d-flex">
+                            <input type="text" class="form-control me-2" placeholder="Enter your coupon code">
+                            <button type="submit" class="btn btn-dark site-btn">APPLY COUPON</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="shoping__checkout">
+                    <h5>Cart Total</h5>
+                    <ul>
+                        <li>Subtotal <span>৳{{ cart_total_amount|floatformat:2 }}</span></li>
+                        <li>Total <span>৳{{ cart_total_amount|floatformat:2 }}</span></li>
+                    </ul>
+                    {% if totalcartitems %}
+                    <a href="https://t.me/realsamitg" class="btn btn-primary w-100 primary-btn">PROCEED TO CHECKOUT</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center py-5 kk-empty-state">
+                <i class="fa fa-shopping-cart fa-4x text-muted mb-3"></i>
+                <h3>Your cart is empty</h3>
+                <p class="text-muted">Looks like you haven't added anything to your cart yet.</p>
+                <a href="{% url 'core:products-list' %}" class="btn btn-primary mt-3 primary-btn">CONTINUE SHOPPING</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+<script>
+    $(document).ready(function (){
+        var proQty = $('.pro-qty');
+        if (proQty.find('.qtybtn').length === 0) {
+            proQty.prepend('<span class="dec qtybtn">-</span>');
+            proQty.append('<span class="inc qtybtn">+</span>');
+        }
+        proQty.off('click', '.qtybtn').on('click', '.qtybtn', function () {
+            var $button = $(this);
+            var oldValue = $button.parent().find('input').val();
+            if ($button.hasClass('inc')) {
+                var newVal = parseFloat(oldValue) + 1;
+            } else {
+                if (oldValue > 0) {
+                    var newVal = parseFloat(oldValue) - 1;
+                } else {
+                    newVal = 0;
+                }
+            }
+            $button.parent().find('input').val(newVal);
+        });
+    })
+</script>

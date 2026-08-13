@@ -1,0 +1,31 @@
+<div class="col-lg-4 col-md-5">
+    <div class="blog__sidebar bg-white p-4 rounded shadow-sm border-0">
+        <div class="blog__sidebar__search mb-5">
+            <form action="#" class="position-relative">
+                <input type="text" placeholder="Search..." class="form-control rounded-pill py-2 pl-4 pr-5 shadow-sm border text-muted">
+                <button type="submit" class="btn position-absolute border-0 bg-transparent" style="top: 0; right: 10px; height: 100%;"><span class="icon_search text-muted"></span></button>
+            </form>
+        </div>
+        <div class="blog__sidebar__item mb-5">
+            <h4 class="font-weight-bold mb-3 pb-2 border-bottom">Categories</h4>
+            <ul class="list-unstyled mb-0">
+                {% for c in blog_categories %}
+                <li class="mb-2">
+                    <a href="{% url 'blog:blog-category' c.cid %}" class="text-muted text-decoration-none d-flex justify-content-between align-items-center hover-primary">
+                        <span>{{ c.title }}</span> 
+                        <span class="badge badge-light badge-pill border shadow-sm">{{c.categories.count}}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="blog__sidebar__item">
+            <h4 class="font-weight-bold mb-3 pb-2 border-bottom">By Tags</h4>
+            <div class="blog__sidebar__item__tags d-flex flex-wrap">
+                {% for random_tag in random_blog_tags %}
+                <a href="{% url 'blog:blog-tag' random_tag.slug %}" class="badge badge-light text-muted p-2 mb-2 mr-2 border shadow-sm font-weight-normal hover-bg-primary hover-text-white transition" style="font-size: 14px;">#{{ random_tag.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}404 - Page Not Found{% endblock title %}
+
+{% block content %}
+
+{% include 'partials/hero-section.html' %}
+
+<section class="spad" style="min-height: 60vh; display: flex; align-items: center; justify-content: center; background-color: #fcfcfc;">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="error-template py-5 bg-white shadow-sm rounded border-0">
+                    <h1 class="display-1 font-weight-bold text-primary mb-0" style="font-size: 120px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">404</h1>
+                    <h2 class="mb-4 font-weight-bold text-dark">Oops! Page Not Found</h2>
+                    <p class="lead text-muted mb-5 px-md-5">
+                        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+                    </p>
+                    <div class="error-actions mt-4">
+                        <a href="{% url 'core:index' %}" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm mr-3 font-weight-bold">
+                            <i class="fa fa-home mr-2"></i> Take Me Home
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-secondary btn-lg rounded-pill px-5 shadow-sm font-weight-bold">
+                            <i class="fa fa-envelope mr-2"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

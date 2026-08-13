@@ -1,0 +1,39 @@
+{% for p in products %}
+<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+    <div class="card h-100 shadow-sm border-0 main__product__item">
+        <a href="{% url 'core:products-detail' p.pid %}">
+            <div class="main__product__item__pic set-bg position-relative" style="background-image: url('{{ p.image.url }}'); height: 260px; background-size: cover; background-position: center;">
+                <img src="{{ p.image.url }}" alt="{{ p.title }}" class="d-none">
+                {% if p.get_percentage > 0 %}
+                <div class="badge bg-danger position-absolute main__product__percent" style="top: 10px; right: 10px;">-{{ p.get_percentage|floatformat:0 }}%</div>
+                {% endif %}
+            </div>
+        </a>
+        <div class="card-body text-center main__product__item__text d-flex flex-column">
+            <span class="text-muted small mb-1">{{ p.category.title }}</span>
+            <h5 class="card-title text-truncate mb-2"><a href="{% url 'core:products-detail' p.pid %}" class="text-dark text-decoration-none">{{ p.title }}</a></h5>
+            <span style="display: none" class="current-product-price-{{ p.id }}">{{ p.price }}</span>
+            
+            <div class="product__item__price mt-auto mb-3">
+                <span class="fw-bold">৳{{ p.price }}</span>
+                {% if p.get_percentage > 0 %}
+                <span class="text-muted text-decoration-line-through small ms-2">৳{{ p.old_price }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="d-none">
+                <input type="hidden" value="1" class="product-quantity-{{ p.id }}" id="product-quantity-{{ p.id }}">
+                <input type="hidden" value="{{ p.pid }}" class="product-pid-{{ p.id }}">
+                <input type="hidden" value="{{ p.image.url }}" class="product-image-{{ p.id }}">
+                <input type="hidden" value="{{ p.id }}" class="product-id-{{ p.id }}">
+                <input type="hidden" value="{{ p.title }}" class="product-title-{{ p.id }}">
+            </div>
+            
+            <!-- JS hooks depend on these buttons -->
+            <button data-index='{{ p.id }}' class="btn btn-outline-primary w-100 add-to-cart-btn mt-2">
+                <i class="fa fa-shopping-cart me-2"></i> Add to Cart
+            </button>
+        </div>
+    </div>
+</div>
+{% endfor %}
